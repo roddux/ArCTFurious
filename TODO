@@ -1,0 +1,11 @@
+[ ] Implement registration page
+[ ] Write HTML for scoreboard
+[ ] Write HTML for code submission screen
+[ ] Write HTML for registration page
+[ ] Write styles for scoreboard
+[ ] Write styles for code submission screen
+[ ] Write styles for registration page
+[ ] Alter CTF code structure to allow for custom victory pages
+[ ] Figure a good way to package the webapp
+[ ] Look into deploying with Rump unikernel
+	- How can we extract the database with this setup? 
