@@ -12,16 +12,19 @@ def checkArguments(argDict):
 
 	# Ensure the email doesn't start with @, contains one @ before
 	# the dot, contains one dot and doesn't have an @ after the dot
-	if not re.match("[^@]+@[^@]+\.[^@]+", kwargs["email"]):
+	if not re.match("[^@]+@[^@]+\.[^@]+", argDict["email"]):
 		return (False, "Bad email")
 
 	# Handles are alphanumeric with underscore and hyphens
-	if not re.match("^[a-zA-Z0-9_\-]*$", kwargs["handle"]):
+	if not re.match("^[a-zA-Z0-9_\-]*$", argDict["handle"]):
 		return (False, "Bad handle")
 
 	# Names are alphanumeric with space, underscores, hyphens and quotes
-	if not re.match("^[a-zA-Z0-9_\-\ \']*$", kwargs["handle"]):
+	if not re.match("^[a-zA-Z0-9_\-\ \']*$", argDict["handle"]):
 		return (False, "Bad name")
+
+	# We good
+	return (True, "No error")
 
 # TODO: Finish implementing this method
 def register(request=None, response=None, **kwargs):

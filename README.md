@@ -16,6 +16,6 @@ Use sqlite3 to setup the database
 # Running
 For devleopment, just run:
 
-    $ hug -f main.py
+    $ hug -f src/main.py
 
 In production, this will switch to uwsgi and nginx
