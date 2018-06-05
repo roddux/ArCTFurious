@@ -2,10 +2,13 @@
 # Register a new user in the CTF game, give them a cookie and redirect back
 # to the code endpoint with whichever code brought them here
 import re
+import uuid
+import db
+import globals
 
 # Check arguments for the register function
 def checkArguments(argDict):
-	# We want Email, Name, Handle
+	# email, name and handle are required parameters, code is optional
 	for _ in ("email", "name", "handle"):
 		if _ not in argDict:
 			return (False, "Incorrect arguments")
@@ -22,22 +25,42 @@ def checkArguments(argDict):
 	# Names are alphanumeric with space, underscores, hyphens and quotes
 	if not re.match("^[a-zA-Z0-9_\-\ \']*$", argDict["handle"]):
 		return (False, "Bad name")
+	
+	# Codes are alphanumeric with underscore and hyphens
+	if "code" in argDict and not re.match("^[a-zA-Z0-9_\-]*$", argDict["code"]):
+		return (False, "Bad code")
 
 	# We good
 	return (True, "No error")
 
-# TODO: Finish implementing this method
+# Register a user and redirect them back to the code page 
 def register(request=None, response=None, **kwargs):
 	# Check our arguments
 	res = checkArguments(kwargs)
 	if res[0] == False:
-		return res[1]
+		return {"error":res[1]}
 
-	# insert into db
-	# db.addNewUser(etc)
+	# Insert new user into db
+	newUserId = db.addNewUser(kwargs["name"],kwargs["email"],kwargs["handle"])
 
-	# redirect user back to the code page, with their cookie
-	# response.status = "307 OVER HERE MATE"
-	# response.append_header("Location","/register")
-	# response.set_cookie(COOKIENAME,"SESHIDINIT",secure=False)
-	return False
+	# Check if we were able to add the user
+	if res is None:
+		return {"error":"Unable to add user"}
+		
+	# Give the new user a session
+	newSessionId= str(uuid.uuid4())
+	res = db.addUserSession(newUserId,newSessionId)
+	if res is None:
+		return {"error":"Could not add new user session"}
+
+	# Give the new user a session cookie
+	# TODO: Remove secure=False for production 
+	response.set_cookie(globals.COOKIENAME, newSessionId, secure=False)
+
+	# Redirect them back to the code page, if they came here with one
+	if "code" in kwargs: 
+		reloc = "/code?code=" + kwargs["code"]
+	else:
+		reloc = "/"
+	
+	return {"success":"You're registered!", "url":reloc}

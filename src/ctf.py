@@ -1,26 +1,13 @@
 # ctf.py
 # The endpoint for checking a valid QR code
 import db
-
-# These codes are Very Important(tm) and must not change
-# TODO: Change this structure (and the logic handling it at the end of code())
-#       to allow for different victory pages per code       
-VALID_CODES = {
-	"OPEN_THE_POD_BAY_DOORS_HAL": 1,
-	"ELVEN_WORD_FOR_FRIEND": 2,
-	"NCC_ARE_TRASH": 3,
-	"DR_STEEL_WILL_TAKE_OVER_THE_WORLD": 100,
-	"THE_LAST_JEDI_IS_A_TERRIBLE_MOVIE": 95,
-}
-
-# Maybe we can make this something fun
-COOKIENAME="NEVER-GONNA-GIVE-YOU-UP"
+import globals
 
 # Helper function to get the userid from a sessionid cookie
 def getUserFromCookie(request):
 	# Get session id from cookie
-	if COOKIENAME in request.cookies:
-		SIDToCheck = request.cookies[COOKIENAME]
+	if globals.COOKIENAME in request.cookies:
+		SIDToCheck = request.cookies[globals.COOKIENAME]
 	else:
 		return None 
 	
@@ -28,26 +15,27 @@ def getUserFromCookie(request):
 	user = db.getUserForSession(SIDToCheck)
 
 	# If it exists, we assume the user is valid
-	return user 
+	return None if user is None else user[0]
 
 # Check the user and their code then give them points
 # TODO: Implement redirection / signup logic
 def code(request=None, response=None, **kwargs):
 	if "code" not in kwargs:
-		return "No code mate" 
+		return {"error":"No code mate"} 
 
 	user = getUserFromCookie(request)
 
 	if user is None:
 		response.status = "307 OVER HERE MATE"
-		response.append_header("Location","/register")
-		# response.set_cookie(COOKIENAME,"SESHIDINIT",secure=False)
-		# return "Uh you ain't logged in bro but it's ok here have a cookie"
-	
-	if code not in VALID_CODES:
-		return "Get outta here with your shit code fam" 
+		# TODO: Move code-checking regex into Globals
+		response.append_header("Location","/register.html#code="+kwargs["code"])
+		return {"error":"Go get registered"} 
+
+	print("Checking {} for user with ID {}".format(kwargs["code"],user))
+	if kwargs["code"] not in globals.VALID_CODES:
+		return {"error":"Get outta here with your shit code fam"} 
 	
 	# If we got here, they good
-	score = VALID_CODES[code]
+	score = globals.VALID_CODES[kwargs["code"]][0]
 	db.addScoreForUser(user, score)
-	return "You win the special prize!"
+	return {"success":"You win the special prize!", "prizeurl":globals.VALID_CODES[kwargs["code"]][1]}

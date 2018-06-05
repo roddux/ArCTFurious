@@ -2,8 +2,36 @@
 <html>
 	<head>
 		<title>ArCTFurious / Register</title>
-		<link rel="stylesheet" src="styles.css">
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="styles.css">
+		<!--script src="register.js" integrity="USE_FOR_PRODUCTION"></script-->
+		<script src="register.js"></script>
 	</head>
 	<body>
+		<h1>Register</h1>
+		<table id="regtable">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Handle</th>
+				</tr>
+			</thead>
+			<tbody>
+				<form action="/register" method="get">
+					<tr>
+						<td><input type="text"   name="name"></td>
+						<td><input type="text"   name="email"></td>
+						<td><input type="text"   name="handle"></td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<input type="hidden" name="code" id="code">
+							<input type="Submit" value="Register">
+						</td>
+					</tr>
+				</form>
+			</tbody>
+		</table>
 	</body>
 </html>

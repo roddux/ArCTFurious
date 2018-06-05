@@ -2,8 +2,28 @@
 <html>
 	<head>
 		<title>ArCTFurious / Scoreboard</title>
-		<link rel="stylesheet" src="styles.css">
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="styles.css">
+		<!--script src="main.js" integrity="USE_FOR_PRODUCTION"></script-->
+		<script src="main.js"></script>
 	</head>
 	<body>
+		<h1>Scores</h1>
+		<table id="scoretable">
+			<thead>
+				<tr>
+					<th>User</th>
+					<th>Score</th>
+				</tr>
+			</thead>
+			<tbody>
+				<template id="scoretpl">
+					<tr>
+						<td></td>
+						<td></td>
+					</tr>
+				</template>
+			</tbody>
+		</table>
 	</body>
 </html>

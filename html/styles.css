@@ -1,0 +1,26 @@
+body {
+	background-color: #07003F;
+	color: #A34A00;
+	font-family: sans-serif;
+}
+
+h1 {
+	color: #FF7400;
+}
+
+#scoretable {
+	margin: 0 auto;
+	width: 80%;
+	border: 1px solid;
+}
+
+#scoretable thead th {
+	padding: 1em;
+	color: #E76900;
+	background-color: #5A2900;
+}
+
+#scoretable tbody td {
+	padding: .5em;
+	color: #FF7400;
+}
