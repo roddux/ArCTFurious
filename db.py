@@ -28,7 +28,13 @@ def getScoreboard():
 def addScoreForUser(userid,score):
 	c,con = openDB()
 	val = (userid,score,)
-	c.execute("INSERT INTO scores (userid,score) VALUES (?,?) ON CONFLICT(userid) DO UPDATE SET score=score+?", userid,score,score)
+	# If user has no score
+	c.execute("INSERT INTO scores (userid,score) VALUES (?,?)", (userid,score))
+	# If user has a score
+	c.execute("SELECT score FROM scores WHERE userid=?", (userid,))
+	curScore = c.fetchOne()
+	newScore = curScore + score
+	c.execute("UPDATE scores SET score=? WHERE userid=?", (newScore,userid))
 	closeDB(con)
 	return True 
 

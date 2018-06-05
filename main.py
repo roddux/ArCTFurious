@@ -1,3 +1,5 @@
+# main.py
+# The main router for the web app
 import scoreboard
 import ctf 
 import register 

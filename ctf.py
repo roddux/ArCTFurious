@@ -39,10 +39,10 @@ def code(request=None, response=None, **kwargs):
 	user = getUserFromCookie(request)
 
 	if user is None:
-		# response.status = "307 OVER HERE MATE"
-		# response.append_header("Location","/register")
-		response.set_cookie(COOKIENAME,"SESHIDINIT",secure=False)
-		return "Uh you ain't logged in bro but it's ok here have a cookie"
+		response.status = "307 OVER HERE MATE"
+		response.append_header("Location","/register")
+		# response.set_cookie(COOKIENAME,"SESHIDINIT",secure=False)
+		# return "Uh you ain't logged in bro but it's ok here have a cookie"
 	
 	if code not in VALID_CODES:
 		return "Get outta here with your shit code fam" 
