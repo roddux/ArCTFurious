@@ -19,21 +19,21 @@ def checkArguments(argDict):
 		return (False, "Bad email")
 
 	# Handles are alphanumeric with underscore and hyphens
-	if not re.match("^[a-zA-Z0-9_\-]*$", argDict["handle"]):
+	if not re.match("^[\-\w]*$", argDict["handle"]):
 		return (False, "Bad handle")
 
 	# Names are alphanumeric with space, underscores, hyphens and quotes
-	if not re.match("^[a-zA-Z0-9_\-\ \']*$", argDict["handle"]):
+	if not re.match("^[\-\w' ]*$", argDict["name"]):
 		return (False, "Bad name")
-	
-	# Codes are alphanumeric with underscore and hyphens
-	if "code" in argDict and not re.match("^[a-zA-Z0-9_\-]*$", argDict["code"]):
-		return (False, "Bad code")
 
+	# The code check is a global, because we use it elsewhere too
+	if "code" in argDict and globals.checkCode(argDict["code"]) is False:
+		return (False, "Bad code")
+		
 	# We good
 	return (True, "No error")
 
-# Register a user and redirect them back to the code page 
+# Register a user and redirect them depending on their supplied code, if any
 def register(request=None, response=None, **kwargs):
 	# Check our arguments
 	res = checkArguments(kwargs)
@@ -48,19 +48,20 @@ def register(request=None, response=None, **kwargs):
 		return {"error":"Unable to add user"}
 		
 	# Give the new user a session
-	newSessionId= str(uuid.uuid4())
+	newSessionId = str(uuid.uuid4())
 	res = db.addUserSession(newUserId,newSessionId)
 	if res is None:
 		return {"error":"Could not add new user session"}
 
 	# Give the new user a session cookie
-	# TODO: Remove secure=False for production 
-	response.set_cookie(globals.COOKIENAME, newSessionId, secure=False)
+	# TODO: Remove secure=False and http_only=False for production 
+	response.set_cookie(globals.COOKIENAME, newSessionId, secure=False, http_only=False)
 
 	# Redirect them back to the code page, if they came here with one
 	if "code" in kwargs: 
-		reloc = "/code?code=" + kwargs["code"]
+		reloc = "/code.html#code=" + kwargs["code"]
 	else:
 		reloc = "/"
-	
+
+	# TODO: Call this page from register.html as AJAX, handle the 'reloc' param	
 	return {"success":"You're registered!", "url":reloc}

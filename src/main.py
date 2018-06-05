@@ -4,15 +4,17 @@ import hug
 import scoreboard
 import ctf 
 import register 
+import globals
 
 api = hug.API(__name__)
 
 # Static files
 hug.get("/register.html",   api=api, output=hug.output_format.file)(lambda:"html/register.html")
-hug.get("/scoreboard.html", api=api, output=hug.output_format.file)(lambda:"html/scoreboard.html")
-hug.get("/code.html",       api=api, output=hug.output_format.file)(lambda:"html/code.html")
-hug.get("/main.js",         api=api, output=hug.output_format.file)(lambda:"html/main.js")
 hug.get("/register.js",     api=api, output=hug.output_format.file)(lambda:"html/register.js")
+hug.get("/scoreboard.html", api=api, output=hug.output_format.file)(lambda:"html/scoreboard.html")
+hug.get("/scoreboard.js",   api=api, output=hug.output_format.file)(lambda:"html/scoreboard.js")
+hug.get("/code.html",       api=api, output=hug.output_format.file)(lambda:"html/code.html")
+hug.get("/code.js",         api=api, output=hug.output_format.file)(lambda:"html/code.js")
 hug.get("/styles.css",      api=api, output=hug.output_format.file)(lambda:"html/styles.css")
 
 # Prize endpoints will be obscured
@@ -27,6 +29,12 @@ hug.get("/",           api=api, output=hug.output_format.file)(lambda:"html/scor
 hug.get("/scoreboard", api=api)(scoreboard.scoreboard)
 hug.get("/code",       api=api)(ctf.code)
 hug.get("/register",   api=api)(register.register)
+
+# Temporary debug endpoint
+def deleteCookies(response=None):
+	response.unset_cookie(globals.COOKIENAME)
+	return True	
+hug.get("/dc", api=api)(deleteCookies)
 
 # Redirect all other requests to the scoreboard screen
 hug.not_found(api=api, output=hug.output_format.file)(lambda:"html/scoreboard.html")

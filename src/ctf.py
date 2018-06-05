@@ -24,18 +24,19 @@ def code(request=None, response=None, **kwargs):
 		return {"error":"No code mate"} 
 
 	user = getUserFromCookie(request)
+	
+	if globals.checkCode(kwargs["code"]) is False:
+		return {"error":"Not accepting illegal code", "url":"/"}
 
 	if user is None:
-		response.status = "307 OVER HERE MATE"
-		# TODO: Move code-checking regex into Globals
-		response.append_header("Location","/register.html#code="+kwargs["code"])
-		return {"error":"Go get registered"} 
+		passCode=kwargs["code"]
+		return {"error":"Go get registered", "url":"/register.html#code="+passCode} 
 
-	print("Checking {} for user with ID {}".format(kwargs["code"],user))
+	# print("Checking {} for user with ID {}".format(kwargs["code"],user))
 	if kwargs["code"] not in globals.VALID_CODES:
-		return {"error":"Get outta here with your shit code fam"} 
+		return {"error":"Get outta here with your shit code fam", "url":"/"} 
 	
 	# If we got here, they good
 	score = globals.VALID_CODES[kwargs["code"]][0]
 	db.addScoreForUser(user, score)
-	return {"success":"You win the special prize!", "prizeurl":globals.VALID_CODES[kwargs["code"]][1]}
+	return {"success":"You win the special prize!", "url":globals.VALID_CODES[kwargs["code"]][1]}
