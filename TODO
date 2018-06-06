@@ -1,3 +1,4 @@
+[ ] Add exception handling for DB queries
 [ ] Add logic to prevent using the same code twice
 [ ] Make the DB connection a singleton
 [ ] Reuse the DB singleton rather than open/closing new connections 
@@ -5,7 +6,7 @@
 [ ] Write unit tests
 [ ] Write integration tests
 [X] Write HTML for scoreboard
-[ ] Write HTML for code submission screen
+[X] Write HTML for code submission screen
 [X] Write HTML for registration page
 [~] Write styles for scoreboard
 [~] Write styles for code submission screen

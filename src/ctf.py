@@ -23,6 +23,9 @@ def code(request=None, response=None, **kwargs):
 	if "code" not in kwargs:
 		return {"error":"No code mate"} 
 
+	# UTF-8 strings only pls
+	globals.sanitise(kwargs)
+
 	user = getUserFromCookie(request)
 	
 	if globals.checkCode(kwargs["code"]) is False:

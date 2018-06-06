@@ -23,3 +23,17 @@ VALID_CODES = {
 
 # Maybe we can make this something fun
 COOKIENAME="NEVER-GONNA-GIVE-YOU-UP"
+
+# Sanitise all inputs to UTF-8
+def sanitise(argDict):
+	print("Sanitising arguments ...")
+	for _ in argDict.items():
+		KEY=_[0]
+		VAL=argDict[KEY]
+		print("Key: '{}', Value: ".format(KEY), end="")
+		print(VAL)
+		print("Value type: {}".format(type(VAL)))
+		DEC=VAL.decode("UTF-8")
+		print("Value type decoded: {}".format(type(DEC)))
+		print("Value decoded: {}".format(DEC))
+		argDict[KEY] = DEC

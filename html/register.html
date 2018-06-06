@@ -18,20 +18,31 @@
 				</tr>
 			</thead>
 			<tbody>
-				<form action="/register" method="get">
+				<form id="regForm">
 					<tr>
-						<td><input type="text"   name="name"></td>
-						<td><input type="text"   name="email"></td>
-						<td><input type="text"   name="handle"></td>
+						<td><input type="text" name="name"   placeholder="Dave"></td>
+						<td><input type="text" name="email"  placeholder="dave@dave.me"></td>
+						<td><input type="text" name="handle" placeholder="dav3"></td>
 					</tr>
 					<tr>
 						<td colspan="3">
-							<input type="hidden" name="code" id="code">
-							<input type="Submit" value="Register">
+							<button id="submit">Register</button>
 						</td>
 					</tr>
 				</form>
 			</tbody>
 		</table>
+		<script>
+			function loadFake() {
+				let email = document.querySelector("[name='email']");
+				let name = document.querySelector("[name='name']");
+				let handle = document.querySelector("[name='handle']");
+				let r = Math.random().toString(36).substring(2, 15);
+				email.value="fred@"+r+".net";
+				name.value="fred " + r;
+				handle.value=r;
+			}
+		</script>
+		<button onclick="loadFake()">Load fake data</button>
 	</body>
 </html>

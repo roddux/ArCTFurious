@@ -4,15 +4,12 @@
 // Process the JSON result of checking code
 function processResult(data) {
 	let statusBanner = document.querySelector("#status");
-	console.log(data);
 	// If we have an error
 	if("error" in data) {
-		// add class 'error' or something to the status div
 		statusBanner.innerHTML = "Error: "+data.error;
 	}
 	// If we succeeded 
 	if("success" in data) {
-		// add class 'success'
 		statusBanner.innerHTML = "Success: "+data.success;
 	}
 	// We've been given a redirect, lets do so after 2.5s
@@ -34,27 +31,29 @@ function getCodeFromHash() {
 
 // Fucking asynchronous Promise() 'thenable' .callback NOSNENSE 
 function checkCode() {
-	function codeOkay(data) {
-		return data.json();
-	};
-
-	function codeFail(data) {
-		console.log(data);
-	};
-
-	// Cleaner new AJAX API that replaces XMLHttpRequest
-	let codeResp = fetch(
-		"/code?code="+getCodeFromHash(),
-		{credentials: "same-origin"},
-	)
-		.then(codeOkay, codeFail)
-		.catch(codeFail)
-	;
-	
-	let data = codeResp 
-		.then(processResult, codeFail)
-		.catch(codeFail)
-	;
+	let fd = new FormData();
+	let passedCode = getCodeFromHash();
+	if(typeof passedCode == "undefined") {
+		let statusBanner = document.querySelector("#status");
+		statusBanner.innerHTML = "Error: You don't have a code!";
+		window.setTimeout(
+			function redirect() {
+				window.location = "/";
+			}
+		, 2500);
+		return false;
+	}
+	else {
+		fd.append("code", getCodeFromHash());
+	}
+	fetch(
+		"/code",
+		{
+			method: "POST",
+			body: fd,
+			credentials: "same-origin"
+		},
+	).then(resp=>resp.json()).then(processResult);
 }
 
 document.addEventListener("DOMContentLoaded", checkCode);

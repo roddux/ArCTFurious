@@ -13,6 +13,9 @@ def checkArguments(argDict):
 		if _ not in argDict:
 			return (False, "Incorrect arguments")
 
+	# Sanitise all our arguments to UTF-8 strings
+	globals.sanitise(argDict)
+
 	# Ensure the email doesn't start with @, contains one @ before
 	# the dot, contains one dot and doesn't have an @ after the dot
 	if not re.match("[^@]+@[^@]+\.[^@]+", argDict["email"]):
@@ -41,7 +44,10 @@ def register(request=None, response=None, **kwargs):
 		return {"error":res[1]}
 
 	# Insert new user into db
-	newUserId = db.addNewUser(kwargs["name"],kwargs["email"],kwargs["handle"])
+	try:
+		newUserId = db.addNewUser(kwargs["name"],kwargs["email"],kwargs["handle"])
+	except: # db exception
+		return {"error":"You're already registered, you cheeky git"}
 
 	# Check if we were able to add the user
 	if res is None:

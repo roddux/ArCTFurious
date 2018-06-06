@@ -25,10 +25,10 @@ hug.get("/prize4", api=api, output=hug.output_format.file)(lambda:"html/prize4.h
 hug.get("/prize5", api=api, output=hug.output_format.file)(lambda:"html/prize5.html")
 
 # Endpoints for the API functions
-hug.get("/",           api=api, output=hug.output_format.file)(lambda:"html/scoreboard.html")
-hug.get("/scoreboard", api=api)(scoreboard.scoreboard)
-hug.get("/code",       api=api)(ctf.code)
-hug.get("/register",   api=api)(register.register)
+hug.get("/",            api=api, output=hug.output_format.file)(lambda:"html/scoreboard.html")
+hug.get("/scoreboard",  api=api)(scoreboard.scoreboard)
+hug.post("/code",       api=api)(ctf.code)
+hug.post("/register",   api=api)(register.register)
 
 # Temporary debug endpoint
 def deleteCookies(response=None):
