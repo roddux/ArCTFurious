@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<h1>Scores</h1>
-		<table id="scoretable">
+		<table id="scoretable" class="scroll">
 			<thead>
 				<tr>
 					<th>User</th>
@@ -25,13 +25,12 @@
 				</template>
 			</tbody>
 		</table>
-		<div style="margin: 0 auto; width: 50%; border: 1px solid;"><!-- Development / debugging -->
-			<h1>debug</h1>
-			<a href="/code.html#code=OPEN_THE_POD_BAY_DOORS_HAL">Click for a free point</a><br/>
+		<div style="position:absolute;top:50%;left:0;">
+			<a href="/code.html#code=OPEN_THE_POD_BAY_DOORS_HAL">Click for a 1-point code</a><br/>
 			<a href="/code.html">Click for no code</a><br/>
-			<a href="/code.html#code=this_doesnt_do_anything">Click for a fake point</a><br/>
-			<a href="/code.html#code=<spicy.m3m3!__-=aaa">Click for an illegal point</a><br/>
-			<a href="/code.html#fuck=cu'!!_-=-0908nt=cu@.&amp;ck#shit">Click for invalid hash</a><br/>
+			<a href="/code.html#code=this_doesnt_do_anything">Click for a fake code</a><br/>
+			<a href="/code.html#code=<spicy.m3m3!__-=aaa">Click for an illegal code</a><br/>
+			<a href="/code.html#fuck=cu'!!_-=-0908nt=cu@.&amp;ck#shit">Click for an invalid code url</a><br/>
 			<script>
 			function clearCookies() {
 				fetch("/dc", {credentials:"include"});

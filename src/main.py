@@ -16,6 +16,7 @@ hug.get("/scoreboard.js",   api=api, output=hug.output_format.file)(lambda:"html
 hug.get("/code.html",       api=api, output=hug.output_format.file)(lambda:"html/code.html")
 hug.get("/code.js",         api=api, output=hug.output_format.file)(lambda:"html/code.js")
 hug.get("/styles.css",      api=api, output=hug.output_format.file)(lambda:"html/styles.css")
+hug.get("/promeo.woff2",    api=api, output=hug.output_format.file)(lambda:"html/promeo.woff2")
 
 # Prize endpoints will be obscured
 hug.get("/prize1", api=api, output=hug.output_format.file)(lambda:"html/prize1.html")

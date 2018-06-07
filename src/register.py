@@ -44,10 +44,11 @@ def register(request=None, response=None, **kwargs):
 		return {"error":res[1]}
 
 	# Insert new user into db
-	try:
-		newUserId = db.addNewUser(kwargs["name"],kwargs["email"],kwargs["handle"])
-	except: # db exception
-		return {"error":"You're already registered, you cheeky git"}
+	# TODO: DB exception handling
+	#try:
+	newUserId = db.addNewUser(kwargs["name"],kwargs["email"],kwargs["handle"])
+	#except: # db exception
+	# return {"error":"You're already registered, you cheeky git"}
 
 	# Check if we were able to add the user
 	if res is None:
@@ -55,6 +56,7 @@ def register(request=None, response=None, **kwargs):
 		
 	# Give the new user a session
 	newSessionId = str(uuid.uuid4())
+	# TODO: DB exception handling
 	res = db.addUserSession(newUserId,newSessionId)
 	if res is None:
 		return {"error":"Could not add new user session"}

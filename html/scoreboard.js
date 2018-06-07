@@ -8,7 +8,7 @@ function displayScores(scoreJSON) {
 		let tpl = document.querySelector('#scoretpl');
     		let clone = document.importNode(tpl.content, true);
     		td = clone.querySelectorAll("td");
-    		td[0].textContent = score.name;
+    		td[0].textContent = score.handle;
     		td[1].textContent = score.score;
 		let tb = document.querySelector("#scoretable>tbody");
     		tb.appendChild(clone);

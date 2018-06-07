@@ -1,26 +1,54 @@
+@font-face {
+  font-family: "promeo";
+  src: url("/promeo.woff2") format("woff2");
+}
+* { margin: 0; padding: 0; border: 0; }
+html,body { height: 100%; }
 body {
-	background-color: #07003F;
-	color: #A34A00;
-	font-family: sans-serif;
+	background-color: #081d2e;
+	color: #FF4612;
+	font-family: "promeo";
 }
 
 h1 {
-	color: #FF7400;
+	font-size: 3em;
+	float:left;
 }
 
 #scoretable {
-	margin: 0 auto;
+	margin: 0 0 auto auto;
 	width: 80%;
-	border: 1px solid;
+	height: 100%;
+	font-size:2em;
+	border-collapse: collapse;
+}
+
+#scoretable td, #scoretable th {
+	border: 2px solid;
+}
+#scoretable tr:first-child th {
+	border-top: 0;
+}
+#scoretable tr:last-child td {
+	border-bottom: 0;
+}
+#scoretable tr td:first-child,
+#scoretable tr th:first-child {
+	border-left: 0;
+}
+#scoretable tr td:last-child,
+#scoretable tr th:last-child {
+	border-right: 0;
 }
 
 #scoretable thead th {
-	padding: 1em;
-	color: #E76900;
-	background-color: #5A2900;
+	padding: .2em;
+	color: #FF4612;
+	font-size: 2.5em;
 }
 
 #scoretable tbody td {
-	padding: .5em;
-	color: #FF7400;
+	padding: .2em;
+	color: #FF4612;
+	font-size: 2em;
 }

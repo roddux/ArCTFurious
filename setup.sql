@@ -18,6 +18,16 @@ CREATE TABLE sessions (
 	FOREIGN KEY(userid) REFERENCES users(id)
 );
 CREATE UNIQUE INDEX sidindex on sessions(sessionid);
+CREATE TABLE claimed (
+	userid INTEGER NOT NULL PRIMARY KEY,
+	code TEXT NOT NULL,
+	FOREIGN KEY(userid) REFERENCES users(id)
+);
+CREATE TABLE attempts (
+	userid INTEGER NOT NULL PRIMARY KEY,
+	lastattempt INTEGER UNIQUE NOT NULL,
+	FOREIGN KEY(userid) REFERENCES users(id)
+);
 COMMIT;
 
 -- Dummy data

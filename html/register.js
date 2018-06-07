@@ -43,7 +43,7 @@ function submitForm() {
 }
 
 function onLoad() {
-	// Check if they are already registered and redirect them, for funsies
+	// TODO: Check if they are already registered and redirect them, for funsies
 	let form = document.querySelector("#regForm");
 	form.onsubmit = submitForm;
 }

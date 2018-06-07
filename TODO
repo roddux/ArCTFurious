@@ -1,16 +1,17 @@
 [ ] Add exception handling for DB queries
-[ ] Add logic to prevent using the same code twice
-[ ] Make the DB connection a singleton
-[ ] Reuse the DB singleton rather than open/closing new connections 
-[X] Implement registration page
 [ ] Write unit tests
 [ ] Write integration tests
+[X] Add logic to prevent using the same code twice
+[X] Add logic to prevent bruteforcing codes
+[X] Make the DB connection a singleton
+[X] Reuse the DB singleton rather than open/closing new connections 
+[X] Implement registration page
 [X] Write HTML for scoreboard
 [X] Write HTML for code submission screen
 [X] Write HTML for registration page
-[~] Write styles for scoreboard
-[~] Write styles for code submission screen
-[~] Write styles for registration page
+[X] Write styles for scoreboard
+[X] Write styles for code submission screen
+[X] Write styles for registration page
 [X] Alter CTF code structure to allow for custom victory pages
 [ ] Figure a good way to package the webapp
 [ ] Look into deploying with Rump unikernel

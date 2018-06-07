@@ -3,65 +3,99 @@
 import sqlite3
 import globals
 
-# Open the database
+#def logAuth(*args):
+#	print(args)
+#	return sqlite3.SQLITE_OK
+
 def openDB():
+	"""Open the database"""
+	# TODO: Exception handling
 	con = sqlite3.connect(globals.DBFILE)
+#	con.set_authorizer(logAuth)
+	con.row_factory = sqlite3.Row
+	con.isolation_level = None
 	c = con.cursor()
 	return (c,con)
 
-# Commit changes and close the database
-def closeDB(con):
-	con.commit()
-	con.close()
+dbc = None
+def getDBC():
+	"""Instantiate and/or just return the database cursor"""
+	global dbc
+	if dbc is None:
+		dbc = openDB()
+	return dbc[0]
 
-# Return the list of usernames and their scores
+def checkLastAttemptForUser(userid):
+	"""Get the time the user last attempted a code"""
+	c = getDBC()
+	lasttime = c.execute("SELECT lastattempt FROM attempts WHERE userid=?", (userid,))
+	res = lasttime.fetchone()
+	return res["lastattempt"] if res is not None else None
+
+def addAttemptForUser(userid):
+	"""Add an entry to the attempts table with the userid and current time"""
+	c = getDBC()
+	# TODO: Do this in a TRANSACTION?
+	c.execute("DELETE FROM attempts WHERE userid=?", (userid,))
+	lasttime = c.execute("INSERT INTO attempts (userid,lastattempt) VALUES (?,strftime('%s'))", (userid,))
+
 def getScoreboard():
-	c,con = openDB()
-	scores = c.execute("SELECT name,score FROM scores JOIN users on scores.userid=users.id ORDER BY score DESC")
+	"""Return the list of usernames and their scores"""
+	c = getDBC()
+	scores = c.execute("SELECT handle,score FROM scores JOIN users on scores.userid=users.id ORDER BY score DESC")
 	res = scores.fetchall()
-	closeDB(con)
-	return res 
+	return res
 
-# Either add to a user's score, or give them one
 def addScoreForUser(userid,score):
-	c,con = openDB()
+	"""Add to a users score"""
+	c = getDBC()
 	# Check if user has a score
 	c.execute("SELECT score FROM scores WHERE userid=?", (userid,))
 	curScore = c.fetchone()
 	
-	# If user already has a score 
+	# If user already has a score
 	if curScore is not None:
-		newScore = curScore[0] + score	
+		newScore = curScore["score"] + score
 		c.execute("UPDATE scores SET score=? WHERE userid=?", (newScore,userid))
-		closeDB(con)
 		return True
 	# All users should have a score of at least 0 -- unhandled error!
 	else:
 		return False
 
-# Add a new user to the database
+def hasUserClaimedCode(userid,code):
+	"""Check if a user has claimed a given code"""
+	c = getDBC()
+	c.execute("SELECT code FROM claimed WHERE userid=? AND code=?", (userid,code,))
+	res = c.fetchone()
+	if res is None:
+		return False
+	return True
+
+def setUserClaimedCode(userid,code):
+	"""Set the user as having claimed a given code"""
+	c = getDBC()
+	c.execute("INSERT INTO claimed (userid,code) VALUES (?,?)", (userid,code,))
+
 def addNewUser(name,email,handle):
-	c,con = openDB()
+	"""Add a new user to the database"""
+	c = getDBC()
 	c.execute("INSERT INTO users (name,email,handle) VALUES (?,?,?)", (name,email,handle,))
 	res = c.lastrowid
 	if res is None:
 		return None
 	c.execute("INSERT INTO scores (userid,score) VALUES (?,0)", (res,))
-	closeDB(con)
 	return res
 
-# Add a new session to the database
 def addUserSession(userid,sessionid):
-	c,con = openDB()
+	"""Add a new session to the database"""
+	c = getDBC()
 	c.execute("INSERT INTO sessions (userid,sessionid) VALUES (?,?)", (userid,sessionid))
 	res = c.lastrowid
-	closeDB(con)
 	return res
 
-# Gets the userid for a sessionid
 def getUserForSession(sessionid):
-	c,con = openDB()
+	"""Gets the corresponding user id for a given sessionid"""
+	c = getDBC()
 	scores = c.execute("SELECT userid FROM sessions WHERE sessionid=?", (sessionid,))
 	res = scores.fetchone()
-	closeDB(con)
-	return res
+	return res["userid"] if res is not None else None
