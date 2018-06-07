@@ -1,8 +1,8 @@
 # globals.py
-# A space for all global variables (sue me)
+# A space for all global variables and functions (sue me)
 
-# Check if a supplied CTF code is valid
 def checkCode(code):
+	"""Check if a supplied CTF code is valid"""
 	import re
 	# Codes are alphanumeric with underscores and hyphens
 	if not re.match("^[a-zA-Z0-9_\-]*$", code):
@@ -24,8 +24,8 @@ VALID_CODES = {
 # Make this something fun
 COOKIENAME="NEVER-GONNA-GIVE-YOU-UP"
 
-# Sanitise all inputs to UTF-8
 def sanitise(argDict):
+	"""Sanitise all inputs to UTF-8"""
 	for ARG in argDict.items():
 		KEY=ARG[0]
 		VAL=argDict[KEY]

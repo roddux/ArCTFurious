@@ -5,6 +5,7 @@ import db
 # TODO: Figure out how much locking (reading/writing db on different requests) 
 #       is gonna to fuck things up 
 def scoreboard():
+	"""Return a list of users with their scores in descending order"""
 	# Grab the scores from the DB, unsorted
 	# TODO: DB exception handling
 	scores = db.getScoreboard()

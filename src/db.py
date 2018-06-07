@@ -35,7 +35,6 @@ def checkLastAttemptForUser(userid):
 def addAttemptForUser(userid):
 	"""Add an entry to the attempts table with the userid and current time"""
 	c = getDBC()
-	# TODO: Do this in a TRANSACTION?
 	c.execute("DELETE FROM attempts WHERE userid=?", (userid,))
 	lasttime = c.execute("INSERT INTO attempts (userid,lastattempt) VALUES (?,strftime('%s'))", (userid,))
 

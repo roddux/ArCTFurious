@@ -6,8 +6,8 @@ import uuid
 import db
 import globals
 
-# Check arguments for the register function
 def checkArguments(argDict):
+	"""Check arguments for the register function"""
 	# email, name and handle are required parameters, code is optional
 	for _ in ("email", "name", "handle"):
 		if _ not in argDict:
@@ -36,19 +36,17 @@ def checkArguments(argDict):
 	# We good
 	return (True, "No error")
 
-# Register a user and redirect them depending on their supplied code, if any
 def register(request=None, response=None, **kwargs):
+	"""Register a user and redirect them depending on their supplied code, if any"""
 	# Check our arguments
 	res = checkArguments(kwargs)
 	if res[0] == False:
+		# TODO: Implement this return {} malarkey as a global function
 		return {"error":res[1]}
 
 	# Insert new user into db
 	# TODO: DB exception handling
-	#try:
 	newUserId = db.addNewUser(kwargs["name"],kwargs["email"],kwargs["handle"])
-	#except: # db exception
-	# return {"error":"You're already registered, you cheeky git"}
 
 	# Check if we were able to add the user
 	if res is None:
@@ -71,5 +69,4 @@ def register(request=None, response=None, **kwargs):
 	else:
 		reloc = "/"
 
-	# TODO: Call this page from register.html as AJAX, handle the 'reloc' param	
 	return {"success":"You're registered!", "url":reloc}

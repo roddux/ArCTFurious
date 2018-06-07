@@ -38,4 +38,5 @@ def deleteCookies(response=None):
 hug.get("/dc", api=api)(deleteCookies)
 
 # Redirect all other requests to the scoreboard screen
+# TODO: This hack just uses the scoreboard page for 404 errors, figure out how to do this properly
 hug.not_found(api=api, output=hug.output_format.file)(lambda:"html/scoreboard.html")
