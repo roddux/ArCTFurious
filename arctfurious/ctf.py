@@ -1,8 +1,8 @@
 # ctf.py
 # The endpoint for checking a valid QR code
 import time
-import db
-import globals
+import arctfurious.db as db
+import arctfurious.globals as globals
 
 def getUserFromCookie(request):
 	"""Helper function to get the userid from a sessionid cookie"""

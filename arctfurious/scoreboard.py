@@ -1,6 +1,6 @@
 # scoreboard.py
 # Grab the scores from the DB and return them as a sorted list
-import db
+import arctfurious.db as db
 
 # TODO: Figure out how much locking (reading/writing db on different requests) 
 #       is gonna to fuck things up 

@@ -3,8 +3,8 @@
 # to the code endpoint with whichever code brought them here
 import re
 import uuid
-import db
-import globals
+import arctfurious.db as db
+import arctfurious.globals as globals
 
 def checkArguments(argDict):
 	"""Check arguments for the register function"""

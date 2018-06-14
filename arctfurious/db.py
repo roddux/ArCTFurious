@@ -1,7 +1,7 @@
 # db.py
 # Abstract the databse into simple function calls for the rest of the app 
 import sqlite3
-import globals
+import arctfurious.globals as globals
 
 #def logAuth(*args):
 #	print(args)
