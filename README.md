@@ -4,9 +4,9 @@ Setup a python3 virtualenv and activate it
     $ virtualenv --prompt='[ArCTFurious] ' -p $(which python3) ./ARCTF_env
     $ source ARCTF_env/activate
 
-Use pip3 to install the 'hug' package
+Use pip3 to install the requirements 
 
-	$ pip install hug
+    $ pip --no-cache-dir install -r requirements.txt
 
 # Setup
 Use sqlite3 to setup the database
@@ -14,8 +14,10 @@ Use sqlite3 to setup the database
     $ sqlite3 ctf.db <setup.sql
 
 # Running
-For devleopment, just run:
+For devleopment, either run:
 
     $ hug -f src/main.py
 
-In production, this will switch to uwsgi and nginx
+Or,
+
+    $ uwsgi --http 0.0.0.0:8000 --wsgi-file arctfurious/main.py --callable __hug_wsgi__

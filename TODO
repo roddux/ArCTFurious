@@ -1,4 +1,5 @@
 [ ] Add exception handling for DB queries
 [ ] Write unit tests
 [ ] Write integration tests
-[~] Implement proper structure for web app
+[X] Implement proper structure for web app
+[X] Update README to reflect structure, changes
