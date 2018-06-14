@@ -19,7 +19,7 @@ CREATE TABLE sessions (
 );
 CREATE UNIQUE INDEX sidindex on sessions(sessionid);
 CREATE TABLE claimed (
-	userid INTEGER NOT NULL PRIMARY KEY,
+	userid INTEGER NOT NULL,
 	code TEXT NOT NULL,
 	FOREIGN KEY(userid) REFERENCES users(id)
 );
@@ -28,16 +28,4 @@ CREATE TABLE attempts (
 	lastattempt INTEGER UNIQUE NOT NULL,
 	FOREIGN KEY(userid) REFERENCES users(id)
 );
-COMMIT;
-
--- Dummy data
-BEGIN TRANSACTION;
-INSERT INTO users VALUES(1,'fred@google.com','Fred Durden','FredDaMan');
-INSERT INTO users VALUES(2,'ssmith@google.com','Steve Smith','st3v3');
-INSERT INTO users VALUES(3,'skr4t@google.ru','Xerxes','xyl0ph');
-INSERT INTO users VALUES(4,'john@google.com','john smith','johnthebest');
-INSERT INTO scores VALUES(1,50);
-INSERT INTO scores VALUES(2,35);
-INSERT INTO scores VALUES(3,95);
-INSERT INTO scores VALUES(4,50);
 COMMIT;
